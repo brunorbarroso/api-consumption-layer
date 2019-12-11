@@ -1,12 +1,18 @@
 {
   "name": "api-consumption-layer",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/brunorbarroso/api-consumption-layer.git"
   },
   "keywords": [
     "api",
+    "architecture",
+    "abastration",
+    "angular8",
+    "service",
+    "api",
+    "simple",
     "angular",
     "consumption",
     "layer",

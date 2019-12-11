@@ -1,7 +1,9 @@
-[![Build Status](https://img.shields.io/npm/dm/api-consumption-layer.svg)](https://www.npmjs.com/package/api-consumption-layer)
-[![Build Status](https://img.shields.io/npm/v/api-consumption-layer.svg)](https://www.npmjs.com/package/kickstarter-angular)
 # API Consumption Layer
 Package created to implement an abstract of consumption layer for RestAPI in Angular projects for equals or later versions to 7.
+
+# Stats
+[![Build Status](https://img.shields.io/npm/dm/api-consumption-layer.svg)](https://www.npmjs.com/package/api-consumption-layer)
+[![Build Status](https://img.shields.io/npm/v/api-consumption-layer.svg)](https://www.npmjs.com/package/kickstarter-angular)
 
 # Why?
 We know that angular is component oriented but over time and with project growth, if there is no basic design organization, it will get confusing and difficult to maintain. So in order to improve maintenance and start a project in a structured way, I created this package.
@@ -31,7 +33,7 @@ After install packege, you need to create a model and service, for example:
 **Service [product.service.ts]**
 
     import { Injectable } from '@angular/core';
-	import { CoreApiService } from 'api-consumption-layer/src/public-api';
+	import { CoreApiService } from 'api-consumption-layer';
     import { Product  as Entity } from  '../models/product.model';
     
     /* Path da API */
