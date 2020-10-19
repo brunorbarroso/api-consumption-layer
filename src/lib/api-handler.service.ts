@@ -22,7 +22,6 @@ export class ApiHandlerService<T> {
   }
 
   setResource(resource: string) {
-    console.log('set resource', resource);
     this.resource = resource;
     this.resourceSubject.next(resource);
   }
@@ -35,7 +34,7 @@ export class ApiHandlerService<T> {
       );
   }
 
-  getById(id: number): Observable<T> {
+  getById(id: string): Observable<T> {
     return this.http.get<T>(`${this.getPathBase()}/${id}`).pipe(
       tap(_ => console.log(`Get item with by id=${id}`)),
       catchError(this.handleError<T>(`getById id=${id}`))
@@ -50,14 +49,14 @@ export class ApiHandlerService<T> {
     );
   }
 
-  update(id: number, item: T): Observable<any> {
+  update(id: string, item: T): Observable<any> {
     return this.http.put(`${this.getPathBase()}/${id}`, item, httpOptions).pipe(
       tap(_ => console.log(`Update item with id=${id}`)),
       catchError(this.handleError<any>('update'))
     );
   }
 
-  delete(id: number): Observable<T> {
+  delete(id: string): Observable<T> {
     return this.http.delete<T>(`${this.getPathBase()}/delete/${id}`, httpOptions).pipe(
       tap(_ => console.log(`Delete item with id=${id}`)),
       catchError(this.handleError<T>('delete'))
@@ -65,13 +64,11 @@ export class ApiHandlerService<T> {
   }
 
   private getPathBase(): string {
-    console.log('resource selected', this.resource)
     return `${apiUrl}/${this.resource}`;
   }
 
   private handleError<T>(operation = 'operation', result?: T){
     return (error: any): Observable<T> => {
-      console.log('Debugging: ', error);
       return of(result as T);
     }
   }

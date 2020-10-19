@@ -9,32 +9,26 @@ export class CoreApiService<T> {
     constructor(private api: ApiHandlerService<T>) {}
 
     setResource(resourceName: string) {
-        console.log('resource', resourceName);
         this.api.setResource(resourceName);
     }
 
     get() {
-        console.log('api', this.api);
         return this.api.get();
     }
 
-    getById(id: number) {
-        console.log('get by id core api');
+    getById(id: string) {
         return this.api.getById(id);
     }
 
     add(item: T) {
-        console.log('add core api');
         return this.api.add(item);
     }
 
-    update(id: number, item: T) {
-        console.log('update core api');
+    update(id: string, item: T) {
         return this.api.update(id, item);
     }
     
-    delete(id: number) {
-        console.log('delete core api');
+    delete(id: string) {
         return this.api.delete(id);
     }
 }
