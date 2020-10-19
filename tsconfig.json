@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "api-consumption-layer": [
+        "dist/api-consumption-layer"
+      ],
+      "api-consumption-layer/*": [
+        "dist/api-consumption-layer/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

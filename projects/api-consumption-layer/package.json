@@ -1,0 +1,31 @@
+{
+  "name": "api-consumption-layer",
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunorbarroso/api-consumption-layer.git"
+  },
+  "keywords": [
+    "api",
+    "architecture",
+    "abastration",
+    "angular8",
+    "service",
+    "api",
+    "simple",
+    "angular",
+    "consumption",
+    "layer",
+    "restapi"
+  ],
+  "author": "Bruno Barroso <brunobinfo@gmail.com> (https://brunorbarroso.github.io",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brunorbarroso/api-consumption-layer/issues"
+  },
+  "homepage": "https://github.com/brunorbarroso/api-consumption-layer#readme",
+  "peerDependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14"
+  }
+}

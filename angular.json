@@ -120,6 +120,41 @@
           }
         }
       }
+    },
+    "api-consumption-layer": {
+      "projectType": "library",
+      "root": "projects/api-consumption-layer",
+      "sourceRoot": "projects/api-consumption-layer/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/api-consumption-layer/tsconfig.lib.json",
+            "project": "projects/api-consumption-layer/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/api-consumption-layer/src/test.ts",
+            "tsConfig": "projects/api-consumption-layer/tsconfig.spec.json",
+            "karmaConfig": "projects/api-consumption-layer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/api-consumption-layer/tsconfig.lib.json",
+              "projects/api-consumption-layer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "api-layer"
 }
