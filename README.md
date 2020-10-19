@@ -1,27 +1,110 @@
-# ApiLayer
+# API Consumption Layer
+Package created to implement an abstract of consumption layer for RestAPI in Angular projects for equals or later versions to 7.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
+# Stats
+[![Build Status](https://img.shields.io/npm/dm/api-consumption-layer.svg)](https://www.npmjs.com/package/api-consumption-layer)
+[![Build Status](https://img.shields.io/npm/v/api-consumption-layer.svg)](https://www.npmjs.com/package/api-consumption-layer)
 
-## Development server
+# Why?
+We know that angular is component oriented but over time and with project growth, if there is no basic design organization, it will get confusing and difficult to maintain. So in order to improve maintenance and start a project in a structured way, I created this package.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Install
+Run the command: `npm i api-consumption-layer --save`
 
-## Code scaffolding
+After install packege, you need to create a model and service, for example:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**Model [product.model.ts]**
 
-## Build
+     export  class  Product {
+		    id: number;
+		    name: string;
+		    description: string;
+		    providerId: number;
+		    subCategoriaId: number;
+		    unity: string;
+		    initialInventory: string;
+		    previousBalance: string;
+		    currentBalance: string;
+		    cost: string;
+		    price: string;
+		    status: number;
+    }
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+**Environment [src/environments/environment.ts and environment.prod.ts]**
 
-## Running unit tests
+    export const environment = {
+      urlApi: 'http://localhost:3330/api', //include your url api
+    };
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+**Service [product.service.ts]**
 
-## Running end-to-end tests
+    import { Injectable } from '@angular/core';
+	import { CoreApiService } from 'api-consumption-layer';
+    import { Product  as Entity } from  '../models/product.model';
+    import { environment } from '../../../environments/environment';
+    
+    /* Path da API */
+    const resourceName:  string  =  'products';
+    
+    @Injectable({
+	    providedIn:  'root'
+    })
+    export  class  ProductService {
+	    constructor(public  restApi:  CoreApiService<Entity>) {
+	    	    this.restApi.setUrl(environment.urlApi);
+		    this.restApi.setResource(resourceName);
+	    }
+    }
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+**You can use this service like this:**
 
-## Further help
+**Component [CartComponent.ts]**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+    import { Component, OnInit } from  '@angular/core';
+    import { ProductService } from  'src/app/services/product.service';
+    import { Product } from  'src/app/models/product.model';
+
+    @Component({
+	    selector:  'app-cart',
+	    templateUrl:  './cart.component.html',
+	    styleUrls: ['./cart.component.scss']
+    })
+    
+    export  class  CartComponent  implements  OnInit {
+	    dataSource: Product[];
+	    isLoadingResults: boolean;
+    
+	    constructor(private productService: ProductService) { }
+    
+	    ngOnInit() {
+		    this.productService.restApi.get().subscribe(res  => {
+			    this.dataSource = res;
+			    console.log(this.dataSource);
+			    this.isLoadingResults =  false;
+		    }, err  => {
+			    console.log(err);
+			    this.isLoadingResults =  false;
+		    });
+	    }
+    }
+
+
+**if you have problems with XSS (cross-site-script) because you are on different domains, do this:**
+
+- Create the file proxy.config.js and applied the content:
+	
+      const proxy = [{
+        context: '/api',
+    	target: 'http://localhost:3330',
+    	pathRewrite: {'^/api' : ''}
+      }];
+      module.exports = proxy;
+	
+- After to do it, your api will be availibity in the same domain your application with suffix api, for example: your web application is running in port 4200, your api will be running in the same port with suffix api (localhost:4200/api).
+- You can use the command `ng serve --open --proxy-config proxy.config.js` for execute it.
+
+# Credits
+I ask you to contribute to our improvement. It was my first npm package.
+
+# Contact
+brunobinfo@gmail.com
