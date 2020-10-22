@@ -19,10 +19,16 @@ export class ApiHandlerService<T> {
   selectedUrl$: Observable<any>;
   private urlSubject = new Subject<any>();
   apiUrl: string;
+  
+  selectedHeader$: Observable<any>;
+  header: any;
+  private headerSubject = new Subject<any>();
 
   constructor(private http: HttpClient) {
     this.selectedResource$ = this.resourceSubject.asObservable();
     this.selectedUrl$ = this.urlSubject.asObservable();
+    this.selectedHeader$ = this.headerSubject.asObservable();
+    this.setHeader("{'Content-Type': 'application/json'}")
   }
 
   setResource(resource: string) {
@@ -35,8 +41,13 @@ export class ApiHandlerService<T> {
     this.urlSubject.next(url);
   }
 
+  setHeader(header) {
+    this.header = header
+    this.headerSubject.next(header);
+  }
+
   get(): Observable<T[]> {
-    return this.http.get<T[]>(this.getPathBase())
+    return this.http.get<T[]>(this.getPathBase(), {headers: this.header})
       .pipe(
         tap(items => console.log('Get all items')),
         catchError(this.handleError('getAll', []))
@@ -44,14 +55,14 @@ export class ApiHandlerService<T> {
   }
 
   getById(id: string): Observable<T> {
-    return this.http.get<T>(`${this.getPathBase()}/${id}`).pipe(
+    return this.http.get<T>(`${this.getPathBase()}/${id}`, {headers: this.header}).pipe(
       tap(_ => console.log(`Get item with by id=${id}`)),
       catchError(this.handleError<T>(`getById id=${id}`))
     );
   }
 
   add(item: T): Observable<T> {
-    return this.http.post<T>(this.getPathBase(), item, httpOptions).pipe(
+    return this.http.post<T>(this.getPathBase(), item, {headers: this.header}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((item: T) => console.log(`Added item`)),
       catchError(this.handleError<T>('add'))
@@ -59,14 +70,14 @@ export class ApiHandlerService<T> {
   }
 
   update(id: string, item: T): Observable<any> {
-    return this.http.put(`${this.getPathBase()}/${id}`, item, httpOptions).pipe(
+    return this.http.put(`${this.getPathBase()}/${id}`, item, {headers: this.header}).pipe(
       tap(_ => console.log(`Update item with id=${id}`)),
       catchError(this.handleError<any>('update'))
     );
   }
 
   delete(id: string): Observable<T> {
-    return this.http.delete<T>(`${this.getPathBase()}/delete/${id}`, httpOptions).pipe(
+    return this.http.delete<T>(`${this.getPathBase()}/delete/${id}`, {headers: this.header}).pipe(
       tap(_ => console.log(`Delete item with id=${id}`)),
       catchError(this.handleError<T>('delete'))
     );
